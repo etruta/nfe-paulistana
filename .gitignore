@@ -1,0 +1,11 @@
+./lib/test.xml
+package-lock.json
+node_modules/
+.idea/
+./lib/index.ts
+dist/
+/lib/index.ts
+*.pfx
+*.pem
+*.key
+*.cert

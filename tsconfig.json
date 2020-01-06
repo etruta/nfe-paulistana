@@ -1,0 +1,17 @@
+{
+  "include": ["**/*.ts","**/*.xsd","**/*.xml"],
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "types": ["reflect-metadata", "node"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true
+  },
+  "exclude": ["node_modules", "dist"]
+}
