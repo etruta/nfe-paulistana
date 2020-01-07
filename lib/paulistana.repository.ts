@@ -19,16 +19,19 @@ export class PaulistanaRepository {
         return PaulistanaSOAP.sendXML(request,xml);
     }
 
+    public async cancelarNfe(xml: string) {
+        const client = await PaulistanaSOAP.client(this.config);
+        const request = util.promisify(client.CancelamentoNFe);
+        return PaulistanaSOAP.sendXML(request,xml);
+    }
+
     public async testCreateNfeLote(xml: string) {
         const client = await PaulistanaSOAP.client(this.config);
         const request = util.promisify(client.TesteEnvioLoteRPS);
         return PaulistanaSOAP.sendXML(request,xml);
     }
 
-    public async cancelarNfe() {
-        const client = await PaulistanaSOAP.client(this.config);
-        const request = util.promisify(client.CancelamentoNFe);
-    }
+
 
     public async criarNfe() {
         const client = await PaulistanaSOAP.client(this.config);

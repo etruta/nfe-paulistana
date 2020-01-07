@@ -1,14 +1,16 @@
 import {Methods} from "../interfaces/methods";
 import { create } from 'xmlbuilder';
-import {SocilitarCancelamentNfe} from "../interfaces/solicitacoes/socilitar.cancelament.nfe";
+import {Config} from "../interfaces/config";
+import {SocilitarCancelamentoNfe} from "../interfaces/solicitacoes/socilitar.cancelamento.nfe";
+import {AssinarCancelamento} from "../assinaturas/assinar.cancelamento";
 
-export class PedidoCancelarNfe  implements Methods {
+export class PedidoCancelaNfe  implements Methods {
 
     HEAD = "PedidoCancelamentoNFe";
     Retorno;
-    constructor(private readonly data: SocilitarCancelamentNfe) {}
+    constructor(private readonly data: SocilitarCancelamentoNfe, private readonly config: Config) {}
 
-    buildXML() {
+    async buildXML() {
         return create('PedidoCancelamentoNFe')
             .att('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance')
             .att('xmlns:xsd', 'http://www.w3.org/2001/XMLSchema')
@@ -21,7 +23,11 @@ export class PedidoCancelarNfe  implements Methods {
             .ele('ChaveNFe')
             .ele('InscricaoPrestador').text(this.data.inscricaoPrestador).up()
             .ele('NumeroNFe').text(this.data.numeroNFe).up().up()
-            .ele('AssinaturaCancelamento').text("")
+            .ele('AssinaturaCancelamento').text(await new AssinarCancelamento(
+                this.data,
+                this.config.certificado.path,
+                this.config.certificado.senha
+            ).getAssinatura())
             .end({ pretty: false });
     }
 

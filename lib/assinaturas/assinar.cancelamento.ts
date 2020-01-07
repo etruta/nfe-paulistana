@@ -1,16 +1,18 @@
 import {Assinar} from "./assinar";
-import {SocilitarCancelamentNfe} from "../interfaces/solicitacoes/socilitar.cancelament.nfe";
+import {SocilitarCancelamentoNfe} from "../interfaces/solicitacoes/socilitar.cancelamento.nfe";
 
 export class AssinarCancelamento extends Assinar {
-    private PrestadorInscricaoMunicipal;
-    private NumeroNFe;
+    private readonly inscricaoPrestador;
+    private readonly numeroNFe;
 
-    set numeroNfe(value: string) {
-        this.NumeroNFe = value.toString().padStart(12, '0');
+    constructor(data:SocilitarCancelamentoNfe,path,senha) {
+        super(path,senha);
+        this.numeroNFe = data.numeroNFe;
+        this.inscricaoPrestador = data.inscricaoPrestador.toString().padStart(12, '0')
     }
 
     async getAssinatura() {
-        const data = `${this.PrestadorInscricaoMunicipal}${this.NumeroNFe}`;
+        const data = `${this.inscricaoPrestador}${this.numeroNFe}`;
         return await this.assinar(data);
     }
 }
